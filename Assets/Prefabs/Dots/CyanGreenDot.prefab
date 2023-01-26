@@ -114,4 +114,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc9322680806c27438395f56b6f97636, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  swipeAngle: 0
+  column: 0
+  row: 0
+  targetX: 0
+  targetY: 0
+  isMatched: 0
+  dotType: 1

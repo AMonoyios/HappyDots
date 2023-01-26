@@ -14,13 +14,12 @@ public class Board : MonoBehaviour
     private GameObject[] dotPrefabs;
 
     // private BackgroundTile[,] tiles;
-    public GameObject[,] Dots { private set; get; }
+    public Dot[,] Dots { private set; get; }
 
-    // Start is called before the first frame update
     private void Start()
     {
         // tiles = new BackgroundTile[gridSize.x, gridSize.y];
-        Dots = new GameObject[gridSize.x, gridSize.y];
+        Dots = new Dot[gridSize.x, gridSize.y];
         Setup();
     }
 
@@ -42,10 +41,15 @@ public class Board : MonoBehaviour
                 tile.name = $"({x}, {y})";
 
                 int dotIndex = Random.Range(0, dotPrefabs.Length);
-                GameObject dot = Instantiate(dotPrefabs[dotIndex], spawnPosition, Quaternion.identity, transform);
-                dot.name = dotPrefabs[dotIndex].name;
-                Dots[x, y] = dot;
-                dot.GetComponent<Dot>().Board = this;
+                while (dotPrefabs[dotIndex].GetComponent<Dot>().MatchedAt(Dots, x, y))
+                {
+                    dotIndex = Random.Range(0, dotPrefabs.Length);
+                }
+
+                GameObject dotGameObject = Instantiate(dotPrefabs[dotIndex], spawnPosition, Quaternion.identity, transform);
+                dotGameObject.name = dotPrefabs[dotIndex].name;
+                Dots[x, y] = dotGameObject.GetComponent<Dot>();
+                Dots[x, y].Board = this;
             }
         }
     }
